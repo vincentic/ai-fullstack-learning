@@ -3,50 +3,213 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Fullstack Learning</title>
+    <title>AI Fullstack Learning · 行业知识工作台</title>
     <style>
       :root {
-        color-scheme: light dark;
+        color-scheme: dark;
         font-family: Inter, "Segoe UI", Arial, sans-serif;
+        --bg: #07111f;
+        --panel: rgba(10, 18, 35, 0.86);
+        --panel-2: rgba(22, 33, 58, 0.9);
+        --text: #f4f7fb;
+        --muted: #8ba0bf;
+        --accent: #66d9ef;
+        --accent-2: #8b5cf6;
+        --border: rgba(255,255,255,0.12);
       }
+
+      * { box-sizing: border-box; }
       body {
         margin: 0;
-        background: linear-gradient(135deg, #0f172a, #1d4ed8);
-        color: #f8fafc;
+        background:
+          radial-gradient(circle at top left, rgba(102, 217, 239, 0.22), transparent 28%),
+          linear-gradient(135deg, var(--bg), #111c33 70%, #1b2947);
+        color: var(--text);
       }
-      main {
-        max-width: 900px;
+      a { color: inherit; text-decoration: none; }
+      .page {
+        max-width: 1200px;
         margin: 0 auto;
-        padding: 48px 24px 72px;
+        padding: 24px 20px 48px;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0 28px;
+      }
+      .brand {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .nav {
+        display: flex;
+        gap: 16px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .hero {
+        background: linear-gradient(120deg, rgba(14, 24, 43, 0.95), rgba(26, 40, 72, 0.92));
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        padding: 34px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      .hero h1 {
+        font-size: clamp(2rem, 3.2vw, 3rem);
+        line-height: 1.15;
+        margin: 0 0 14px;
+      }
+      .hero p {
+        margin: 0;
+        max-width: 720px;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+      .hero .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .tag {
+        border: 1px solid rgba(102, 217, 239, 0.3);
+        background: rgba(102, 217, 239, 0.1);
+        color: #cdeff8;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+      }
+      .section {
+        margin-top: 24px;
+        display: grid;
+        gap: 16px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
       }
       .card {
-        background: rgba(15, 23, 42, 0.8);
-        border: 1px solid rgba(255,255,255,0.15);
+        background: var(--panel);
+        border: 1px solid var(--border);
         border-radius: 20px;
-        padding: 28px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        padding: 20px;
       }
-      h1 { font-size: 2rem; margin-top: 0; }
-      h2 { margin-top: 24px; }
-      ul { line-height: 1.8; }
-      a { color: #93c5fd; }
+      .card h2 {
+        font-size: 1.05rem;
+        margin: 0 0 10px;
+      }
+      .card p, .card li {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 0.95rem;
+      }
+      .industry-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      .industry-list li {
+        padding: 7px 10px;
+        background: var(--panel-2);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 999px;
+        color: #dce8ff;
+      }
+      .cta {
+        display: inline-block;
+        margin-top: 18px;
+        padding: 10px 14px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        color: white;
+        border-radius: 999px;
+        font-weight: 600;
+      }
+      @media (max-width: 900px) {
+        .grid { grid-template-columns: 1fr; }
+      }
     </style>
   </head>
   <body>
-    <main>
-      <section class="card">
-        <h1>AI Fullstack Learning</h1>
-        <p>这是一个用于记录 Java 与 AI 全栈学习路线的静态页面，已经准备好部署到 Vercel。</p>
-        <h2>学习阶段</h2>
-        <ul>
-          <li>Java 基础与面向对象编程</li>
-          <li>Web 开发与数据库基础</li>
-          <li>Spring Boot 与工程化实践</li>
-          <li>AI 应用开发与大模型技术</li>
-        </ul>
-        <h2>项目仓库</h2>
-        <p><a href="https://github.com/vincentic/ai-fullstack-learning">GitHub 仓库</a></p>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">AI Fullstack Learning</div>
+        <nav class="nav">
+          <a href="#roadmap">路线</a>
+          <a href="#industry">行业</a>
+          <a href="#resources">资源</a>
+          <a href="https://github.com/vincentic/ai-fullstack-learning">GitHub</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <h1>把 Java、Web 开发与 AI 大模型能力，串成一套可落地的学习工作台。</h1>
+        <p>参考行业知识方案的“行业分析 + 解决方案 + 书单”结构，这里将学习路线、知识模块和实践方向组织成一张更清晰的成长地图，帮助你从基础到应用持续推进。</p>
+        <div class="tags">
+          <span class="tag">Java 基础</span>
+          <span class="tag">Spring Boot</span>
+          <span class="tag">数据库与后端</span>
+          <span class="tag">AI / 大模型</span>
+          <span class="tag">项目实战</span>
+        </div>
+        <a class="cta" href="#roadmap">查看学习路线</a>
       </section>
-    </main>
+
+      <section class="section" id="industry">
+        <div class="card">
+          <h2>行业视角</h2>
+          <ul class="industry-list">
+            <li>互联网平台</li>
+            <li>生物医药</li>
+            <li>新能源</li>
+            <li>金融科技</li>
+            <li>教育科技</li>
+            <li>智能制造</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section grid" id="roadmap">
+        <div class="card">
+          <h2>阶段 1 · 基础构建</h2>
+          <p>Java 语法、面向对象、集合与异常处理，掌握程序设计的基本能力。</p>
+        </div>
+        <div class="card">
+          <h2>阶段 2 · Web 与后端</h2>
+          <p>HTML/CSS/JavaScript、Servlet、Tomcat、MySQL 与 Spring Boot，建立完整开发闭环。</p>
+        </div>
+        <div class="card">
+          <h2>阶段 3 · AI 与应用落地</h2>
+          <p>大模型原理、RAG、向量数据库、Spring AI 与项目实战，走向真正可交付的智能应用。</p>
+        </div>
+      </section>
+
+      <section class="section grid" id="resources">
+        <div class="card">
+          <h2>学习资源</h2>
+          <ul>
+            <li>Java 基础与进阶路线</li>
+            <li>Web 开发与数据库实战</li>
+            <li>AI 应用开发与模型部署</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>项目目标</h2>
+          <p>从“会写代码”升级为“能独立设计、开发并交付智能应用”的全栈工程化能力。</p>
+        </div>
+        <div class="card">
+          <h2>持续更新</h2>
+          <p>这份页面会不断补充新的学习模块、项目案例和行业解决方案内容。</p>
+        </div>
+      </section>
+    </div>
   </body>
 </html>
