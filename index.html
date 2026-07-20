@@ -6,24 +6,25 @@
     <title>AI Fullstack Learning · 行业知识工作台</title>
     <style>
       :root {
-        color-scheme: dark;
+        color-scheme: light;
         font-family: Inter, "Segoe UI", Arial, sans-serif;
-        --bg: #07111f;
-        --panel: rgba(10, 18, 35, 0.86);
-        --panel-2: rgba(22, 33, 58, 0.9);
-        --text: #f4f7fb;
-        --muted: #8ba0bf;
-        --accent: #66d9ef;
-        --accent-2: #8b5cf6;
-        --border: rgba(255,255,255,0.12);
+        --bg: #f6f8fc;
+        --panel: rgba(255, 255, 255, 0.92);
+        --panel-2: #eef4fb;
+        --text: #172033;
+        --muted: #5c6f8a;
+        --accent: #0f8aa8;
+        --accent-2: #4f46e5;
+        --border: rgba(23, 32, 51, 0.12);
+        --shadow: rgba(45, 58, 90, 0.12);
       }
 
       * { box-sizing: border-box; }
       body {
         margin: 0;
         background:
-          radial-gradient(circle at top left, rgba(102, 217, 239, 0.22), transparent 28%),
-          linear-gradient(135deg, var(--bg), #111c33 70%, #1b2947);
+          radial-gradient(circle at top left, rgba(15, 138, 168, 0.16), transparent 28%),
+          linear-gradient(135deg, var(--bg), #fffdf8 58%, #e9f1fb);
         color: var(--text);
       }
       a { color: inherit; text-decoration: none; }
@@ -52,11 +53,11 @@
         font-size: 0.95rem;
       }
       .hero {
-        background: linear-gradient(120deg, rgba(14, 24, 43, 0.95), rgba(26, 40, 72, 0.92));
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.96), rgba(236, 245, 252, 0.94));
         border: 1px solid var(--border);
         border-radius: 28px;
         padding: 34px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 20px 60px var(--shadow);
       }
       .hero h1 {
         font-size: clamp(2rem, 3.2vw, 3rem);
@@ -78,8 +79,8 @@
       }
       .tag {
         border: 1px solid rgba(102, 217, 239, 0.3);
-        background: rgba(102, 217, 239, 0.1);
-        color: #cdeff8;
+        background: rgba(15, 138, 168, 0.1);
+        color: #0f6177;
         padding: 8px 12px;
         border-radius: 999px;
         font-size: 0.9rem;
@@ -99,6 +100,7 @@
         border: 1px solid var(--border);
         border-radius: 20px;
         padding: 20px;
+        box-shadow: 0 14px 36px rgba(45, 58, 90, 0.08);
       }
       .card h2 {
         font-size: 1.05rem;
@@ -120,9 +122,9 @@
       .industry-list li {
         padding: 7px 10px;
         background: var(--panel-2);
-        border: 1px solid rgba(255,255,255,0.08);
+        border: 1px solid var(--border);
         border-radius: 999px;
-        color: #dce8ff;
+        color: #2a405f;
       }
       .cta {
         display: inline-block;
@@ -133,8 +135,109 @@
         border-radius: 999px;
         font-weight: 600;
       }
+      .roadmap-tabs {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+        gap: 16px;
+      }
+      .tab-list {
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+      .tab-button {
+        width: 100%;
+        min-height: 58px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--muted);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+        text-align: left;
+        padding: 13px 14px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease;
+      }
+      .tab-button:hover,
+      .tab-button:focus-visible {
+        border-color: rgba(15, 138, 168, 0.42);
+        color: var(--text);
+        outline: none;
+      }
+      .tab-button.active {
+        background: linear-gradient(135deg, rgba(15, 138, 168, 0.12), rgba(79, 70, 229, 0.08));
+        border-color: rgba(15, 138, 168, 0.48);
+        color: var(--text);
+        box-shadow: 0 14px 30px rgba(15, 138, 168, 0.12);
+      }
+      .tab-button span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 500;
+        line-height: 1.35;
+      }
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+      .roadmap-detail h2 {
+        margin-bottom: 8px;
+      }
+      .roadmap-detail p {
+        max-width: 760px;
+      }
+      .roadmap-points {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .roadmap-points span {
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--panel-2);
+        color: #2a405f;
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
       @media (max-width: 900px) {
         .grid { grid-template-columns: 1fr; }
+        .roadmap-tabs { grid-template-columns: 1fr; }
+        .tab-list {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .tab-button {
+          text-align: center;
+          padding: 12px 10px;
+        }
+        .roadmap-points { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 640px) {
+        .page { padding: 18px 14px 36px; }
+        .topbar {
+          align-items: flex-start;
+          gap: 14px;
+          flex-direction: column;
+        }
+        .nav {
+          width: 100%;
+          overflow-x: auto;
+          padding-bottom: 4px;
+        }
+        .hero {
+          border-radius: 18px;
+          padding: 24px;
+        }
+        .tab-list { grid-template-columns: 1fr; }
       }
     </style>
   </head>
@@ -177,18 +280,49 @@
         </div>
       </section>
 
-      <section class="section grid" id="roadmap">
-        <div class="card">
-          <h2>阶段 1 · 基础构建</h2>
-          <p>Java 语法、面向对象、集合与异常处理，掌握程序设计的基本能力。</p>
+      <section class="section roadmap-tabs" id="roadmap">
+        <div class="tab-list" role="tablist" aria-label="学习路线阶段">
+          <button class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="stage-basic" id="tab-basic" data-tab="basic">
+            阶段 1 · 基础构建
+            <span>Java 核心能力</span>
+          </button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="stage-web" id="tab-web" data-tab="web">
+            阶段 2 · Web 与后端
+            <span>完整开发闭环</span>
+          </button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="stage-ai" id="tab-ai" data-tab="ai">
+            阶段 3 · AI 与应用
+            <span>智能项目交付</span>
+          </button>
         </div>
-        <div class="card">
-          <h2>阶段 2 · Web 与后端</h2>
-          <p>HTML/CSS/JavaScript、Servlet、Tomcat、MySQL 与 Spring Boot，建立完整开发闭环。</p>
-        </div>
-        <div class="card">
-          <h2>阶段 3 · AI 与应用落地</h2>
-          <p>大模型原理、RAG、向量数据库、Spring AI 与项目实战，走向真正可交付的智能应用。</p>
+        <div class="card roadmap-detail">
+          <div class="tab-panel active" role="tabpanel" id="stage-basic" aria-labelledby="tab-basic" data-panel="basic">
+            <h2>阶段 1 · 基础构建</h2>
+            <p>Java 语法、面向对象、集合与异常处理，掌握程序设计的基本能力，把代码读写、调试和抽象表达练稳。</p>
+            <div class="roadmap-points">
+              <span>数据类型、运算符、流程控制</span>
+              <span>类、对象、封装、继承、多态</span>
+              <span>集合、I/O、异常与基础调试</span>
+            </div>
+          </div>
+          <div class="tab-panel" role="tabpanel" id="stage-web" aria-labelledby="tab-web" data-panel="web">
+            <h2>阶段 2 · Web 与后端</h2>
+            <p>HTML/CSS/JavaScript、Servlet、Tomcat、MySQL 与 Spring Boot 串联起来，建立从页面到数据存储的完整开发闭环。</p>
+            <div class="roadmap-points">
+              <span>前端页面结构与交互</span>
+              <span>HTTP、接口、数据库建模</span>
+              <span>Spring Boot 服务与部署流程</span>
+            </div>
+          </div>
+          <div class="tab-panel" role="tabpanel" id="stage-ai" aria-labelledby="tab-ai" data-panel="ai">
+            <h2>阶段 3 · AI 与应用落地</h2>
+            <p>理解大模型原理、RAG、向量数据库与 Spring AI，把后端能力升级成真正可交付的智能应用方案。</p>
+            <div class="roadmap-points">
+              <span>Prompt、Embedding 与 RAG</span>
+              <span>向量数据库和知识库检索</span>
+              <span>AI 项目实战与线上迭代</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -211,5 +345,25 @@
         </div>
       </section>
     </div>
+    <script>
+      const tabButtons = document.querySelectorAll(".tab-button");
+      const tabPanels = document.querySelectorAll(".tab-panel");
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const tab = button.dataset.tab;
+
+          tabButtons.forEach((item) => {
+            const isActive = item === button;
+            item.classList.toggle("active", isActive);
+            item.setAttribute("aria-selected", String(isActive));
+          });
+
+          tabPanels.forEach((panel) => {
+            panel.classList.toggle("active", panel.dataset.panel === tab);
+          });
+        });
+      });
+    </script>
   </body>
 </html>
