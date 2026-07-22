@@ -209,6 +209,53 @@
         font-size: 0.92rem;
         line-height: 1.45;
       }
+      .notes-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .note-link {
+        display: grid;
+        min-height: 138px;
+        align-content: space-between;
+        gap: 18px;
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.72);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .note-link:hover,
+      .note-link:focus-visible {
+        transform: translateY(-2px);
+        border-color: rgba(15, 138, 168, 0.42);
+        box-shadow: 0 16px 34px rgba(15, 138, 168, 0.12);
+        outline: none;
+      }
+      .note-link strong {
+        color: var(--text);
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+      .note-link span {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+      .support-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .support-links a {
+        padding: 8px 11px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--panel-2);
+        color: #2a405f;
+        font-size: 0.9rem;
+      }
       @media (max-width: 900px) {
         .grid { grid-template-columns: 1fr; }
         .roadmap-tabs { grid-template-columns: 1fr; }
@@ -220,6 +267,7 @@
           padding: 12px 10px;
         }
         .roadmap-points { grid-template-columns: 1fr; }
+        .notes-grid { grid-template-columns: 1fr; }
       }
       @media (max-width: 640px) {
         .page { padding: 18px 14px 36px; }
@@ -247,6 +295,7 @@
         <div class="brand">AI Fullstack Learning</div>
         <nav class="nav">
           <a href="#roadmap">路线</a>
+          <a href="#notes">笔记</a>
           <a href="#industry">行业</a>
           <a href="#resources">资源</a>
           <a href="https://github.com/vincentic/ai-fullstack-learning">GitHub</a>
@@ -322,6 +371,31 @@
               <span>向量数据库和知识库检索</span>
               <span>AI 项目实战与线上迭代</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="notes">
+        <div class="card">
+          <h2>Markdown 笔记导航</h2>
+          <div class="notes-grid">
+            <a class="note-link" href="day01.[环境变量,HelloWorld,变量,常量].md">
+              <strong>Day 01 · 环境变量、HelloWorld、变量、常量</strong>
+              <span>Java 环境、入门程序、注释、关键字与基础概念。</span>
+            </a>
+            <a class="note-link" href="day02.变量_数据类型转换_运算符.md">
+              <strong>Day 02 · 变量、数据类型转换、运算符</strong>
+              <span>基本数据类型、变量规则、类型转换和常见运算。</span>
+            </a>
+            <a class="note-link" href="day03_流程控制_循环.md">
+              <strong>Day 03 · 流程控制、循环</strong>
+              <span>分支结构、循环控制和 Java 程序执行逻辑。</span>
+            </a>
+          </div>
+          <div class="support-links">
+            <a href="README.md">README</a>
+            <a href="learn-diary.md">学习日志</a>
+            <a href="plan.md">学习计划</a>
           </div>
         </div>
       </section>
