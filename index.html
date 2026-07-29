@@ -48,9 +48,44 @@
       }
       .nav {
         display: flex;
+        flex-wrap: wrap;
         gap: 16px;
         color: var(--muted);
         font-size: 0.95rem;
+      }
+      .route-strip {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .route-link {
+        min-height: 92px;
+        display: grid;
+        align-content: space-between;
+        gap: 10px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.74);
+        padding: 14px;
+        color: var(--text);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      }
+      .route-link:hover,
+      .route-link:focus-visible {
+        border-color: rgba(15, 138, 168, 0.42);
+        box-shadow: 0 14px 30px rgba(15, 138, 168, 0.12);
+        transform: translateY(-2px);
+        outline: none;
+      }
+      .route-link strong {
+        font-size: 0.98rem;
+        line-height: 1.35;
+      }
+      .route-link span {
+        color: var(--muted);
+        font-size: 0.84rem;
+        line-height: 1.45;
       }
       .hero {
         background: linear-gradient(120deg, rgba(255, 255, 255, 0.96), rgba(236, 245, 252, 0.94));
@@ -365,6 +400,7 @@
         }
         .roadmap-points { grid-template-columns: 1fr; }
         .notes-grid { grid-template-columns: 1fr; }
+        .route-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       }
       @media (max-width: 640px) {
         .page { padding: 18px 14px 36px; }
@@ -388,6 +424,7 @@
           flex-direction: column;
         }
         .tab-list { grid-template-columns: 1fr; }
+        .route-strip { grid-template-columns: 1fr; }
       }
     </style>
   </head>
@@ -396,11 +433,12 @@
       <header class="topbar">
         <div class="brand">AI Fullstack Learning</div>
         <nav class="nav">
-          <a href="#roadmap">路线</a>
+          <a href="#route-hub">路线</a>
+          <a href="ai-website-building/seo-calendar-plan.md">SEO 计划</a>
           <a href="#notes">笔记</a>
           <a href="#industry">行业</a>
           <a href="#resources">资源</a>
-          <a href="https://github.com/vincentic/ai-fullstack-learning">GitHub</a>
+          <a href="https://github.com/vincentic/ai-fullstack-coach">GitHub</a>
         </nav>
       </header>
 
@@ -415,6 +453,38 @@
           <span class="tag">项目实战</span>
         </div>
         <a class="cta" href="#roadmap">查看学习路线</a>
+      </section>
+
+      <section class="section" id="route-hub">
+        <div class="card">
+          <h2>路线入口</h2>
+          <div class="route-strip">
+            <a class="route-link" href="#roadmap">
+              <strong>Java 全栈</strong>
+              <span>基础、Web 后端、AI 应用</span>
+            </a>
+            <a class="route-link" href="tech-growth/roadmap.md">
+              <strong>技术成长</strong>
+              <span>工程、架构、沟通与领导力</span>
+            </a>
+            <a class="route-link" href="business-growth/roadmap.md">
+              <strong>业务成长</strong>
+              <span>行业、客户、商业模式与指标</span>
+            </a>
+            <a class="route-link" href="ai-website-building/seo-calendar-plan.md">
+              <strong>SEO 建站</strong>
+              <span>2-8 小时日历、周计划、复盘追踪</span>
+            </a>
+            <a class="route-link" href="product-growth/roadmap.md">
+              <strong>产品路线</strong>
+              <span>需求、PRD、指标与交付</span>
+            </a>
+            <a class="route-link" href="design-growth/roadmap.md">
+              <strong>设计路线</strong>
+              <span>体验、组件、视觉与设计 QA</span>
+            </a>
+          </div>
+        </div>
       </section>
 
       <section class="section" id="industry">
@@ -484,7 +554,7 @@
               <h2>Markdown 笔记导航</h2>
               <p>当前仓库里的 Markdown 已全部纳入目录，点击卡片可在页面内预览。</p>
             </div>
-            <span class="doc-count">22 篇文档</span>
+            <span class="doc-count">25 篇文档</span>
           </div>
           <div class="notes-grid">
             <a class="note-link" href="ai-java-learning-practice/day01.[环境变量,HelloWorld,变量,常量].md" data-doc="ai-java-learning-practice/day01.[环境变量,HelloWorld,变量,常量].md">
@@ -562,6 +632,18 @@
             <a class="note-link" href="ai-platform-bouns/day01.md" data-doc="ai-platform-bouns/day01.md">
               <strong>AI 平台加餐 · Day 01</strong>
               <span>AI 平台扩展学习笔记入口，内容待补充。</span>
+            </a>
+            <a class="note-link" href="business-growth/roadmap.md" data-doc="business-growth/roadmap.md">
+              <strong>业务成长 · Roadmap</strong>
+              <span>行业、客户、商业模式、增长路径和业务指标路线。</span>
+            </a>
+            <a class="note-link" href="product-growth/roadmap.md" data-doc="product-growth/roadmap.md">
+              <strong>产品成长 · Roadmap</strong>
+              <span>用户需求、竞品分析、PRD、原型、指标和交付路线。</span>
+            </a>
+            <a class="note-link" href="design-growth/roadmap.md" data-doc="design-growth/roadmap.md">
+              <strong>设计成长 · Roadmap</strong>
+              <span>体验结构、组件、视觉规范、原型交付和设计 QA 路线。</span>
             </a>
             <a class="note-link" href="tech-growth/roadmap.md" data-doc="tech-growth/roadmap.md">
               <strong>技术成长 · Roadmap</strong>
