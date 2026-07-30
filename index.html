@@ -269,6 +269,37 @@
       .notes-toolbar p {
         margin: 0;
       }
+      .notes-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0 0 14px;
+      }
+      .notes-tab {
+        min-height: 38px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--panel-2);
+        color: #2a405f;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 700;
+        padding: 8px 12px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease;
+      }
+      .notes-tab:hover,
+      .notes-tab:focus-visible {
+        border-color: rgba(15, 138, 168, 0.42);
+        color: var(--text);
+        outline: none;
+      }
+      .notes-tab.active {
+        background: linear-gradient(135deg, rgba(15, 138, 168, 0.14), rgba(79, 70, 229, 0.09));
+        border-color: rgba(15, 138, 168, 0.48);
+        color: var(--text);
+        box-shadow: 0 10px 22px rgba(15, 138, 168, 0.1);
+      }
       .doc-count {
         flex: 0 0 auto;
         color: #2a405f;
@@ -289,6 +320,9 @@
         border-radius: 12px;
         background: rgba(255, 255, 255, 0.72);
         transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease;
+      }
+      .note-link[hidden] {
+        display: none;
       }
       .note-link:hover,
       .note-link:focus-visible {
@@ -569,6 +603,16 @@
             </div>
             <span class="doc-count">36 篇文档</span>
           </div>
+          <div class="notes-tabs" role="tablist" aria-label="Markdown 文档分类">
+            <button class="notes-tab active" type="button" data-notes-filter="all" role="tab" aria-selected="true">全部</button>
+            <button class="notes-tab" type="button" data-notes-filter="java" role="tab" aria-selected="false">Java</button>
+            <button class="notes-tab" type="button" data-notes-filter="seo" role="tab" aria-selected="false">SEO</button>
+            <button class="notes-tab" type="button" data-notes-filter="product" role="tab" aria-selected="false">产品</button>
+            <button class="notes-tab" type="button" data-notes-filter="design" role="tab" aria-selected="false">设计</button>
+            <button class="notes-tab" type="button" data-notes-filter="business" role="tab" aria-selected="false">业务</button>
+            <button class="notes-tab" type="button" data-notes-filter="tech" role="tab" aria-selected="false">技术</button>
+            <button class="notes-tab" type="button" data-notes-filter="other" role="tab" aria-selected="false">其他</button>
+          </div>
           <div class="notes-browser">
           <nav class="notes-grid" aria-label="Markdown 文档导航">
             <a class="note-link" href="ai-java-learning-practice/day01.[环境变量,HelloWorld,变量,常量].md" data-doc="ai-java-learning-practice/day01.[环境变量,HelloWorld,变量,常量].md">
@@ -759,6 +803,7 @@
       const tabButtons = document.querySelectorAll(".tab-button");
       const tabPanels = document.querySelectorAll(".tab-panel");
       const noteLinks = document.querySelectorAll(".note-link");
+      const notesTabs = document.querySelectorAll(".notes-tab");
       const reader = document.querySelector("#reader");
       const readerTitle = document.querySelector("#reader-title");
       const readerBody = document.querySelector("#reader-body");
@@ -778,6 +823,58 @@
           tabPanels.forEach((panel) => {
             panel.classList.toggle("active", panel.dataset.panel === tab);
           });
+        });
+      });
+
+      const getNoteCategory = (path) => {
+        if (path.startsWith("ai-java-learning-practice/") || path === "plan.md") {
+          return "java";
+        }
+        if (path.startsWith("ai-website-building/")) {
+          return "seo";
+        }
+        if (path.startsWith("product-growth/")) {
+          return "product";
+        }
+        if (path.startsWith("design-growth/")) {
+          return "design";
+        }
+        if (path.startsWith("business-growth/")) {
+          return "business";
+        }
+        if (path.startsWith("tech-growth/")) {
+          return "tech";
+        }
+        return "other";
+      };
+
+      noteLinks.forEach((link) => {
+        link.dataset.category = getNoteCategory(link.dataset.doc);
+      });
+
+      const resetReader = () => {
+        noteLinks.forEach((item) => item.classList.remove("active"));
+        readerTitle.textContent = "Markdown 预览";
+        readerRaw.href = "README.md";
+        readerBody.innerHTML = "<p>从左侧选择一篇 Markdown 文档开始阅读。</p>";
+      };
+
+      const filterNotes = (filter) => {
+        notesTabs.forEach((tab) => {
+          const isActive = tab.dataset.notesFilter === filter;
+          tab.classList.toggle("active", isActive);
+          tab.setAttribute("aria-selected", String(isActive));
+        });
+
+        noteLinks.forEach((link) => {
+          link.hidden = filter !== "all" && link.dataset.category !== filter;
+        });
+        resetReader();
+      };
+
+      notesTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          filterNotes(tab.dataset.notesFilter);
         });
       });
 
@@ -887,10 +984,7 @@
       });
 
       readerClose.addEventListener("click", () => {
-        noteLinks.forEach((item) => item.classList.remove("active"));
-        readerTitle.textContent = "Markdown 预览";
-        readerRaw.href = "README.md";
-        readerBody.innerHTML = "<p>从左侧选择一篇 Markdown 文档开始阅读。</p>";
+        resetReader();
       });
     </script>
   </body>
