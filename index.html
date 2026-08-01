@@ -616,9 +616,9 @@
           <div class="notes-toolbar">
             <div>
               <h2>模块索引导航</h2>
-              <p>按 Java、SEO、产品、设计、业务等模块切换左侧标签，再在中间列表选择文档预览。</p>
+              <p>按 Java、SEO、产品、设计、业务等模块切换左侧标签，再在中间列表选择 Markdown 预览或 HTML 页面。</p>
             </div>
-            <span class="doc-count">46 篇文档</span>
+            <span class="doc-count">46 篇 Markdown · 5 个框架 HTML</span>
           </div>
           <div class="notes-browser">
           <div class="notes-tabs" role="tablist" aria-label="模块索引导航">
@@ -727,6 +727,26 @@
             <a class="note-link" href="ai-java-learning-practice/java-frameworks/README.md" data-doc="ai-java-learning-practice/java-frameworks/README.md">
               <strong>Java Frameworks · 课程目录</strong>
               <span>Maven、Web、SpringMVC 与 Spring IOC 笔记，包含 Markdown 和 HTML 两种格式。</span>
+            </a>
+            <a class="note-link" href="ai-java-learning-practice/java-frameworks/day01_Maven/day01_Maven.html" data-doc="ai-java-learning-practice/java-frameworks/day01_Maven/day01_Maven.html" data-view="html">
+              <strong>Java Frameworks · Day 01 HTML</strong>
+              <span>Maven 构建、依赖管理、生命周期、继承、聚合与仓库。</span>
+            </a>
+            <a class="note-link" href="ai-java-learning-practice/java-frameworks/day02_Web/day02_Web.html" data-doc="ai-java-learning-practice/java-frameworks/day02_Web/day02_Web.html" data-view="html">
+              <strong>Java Frameworks · Day 02 HTML</strong>
+              <span>Web 核心概念、HTTP 协议、Spring 与 SpringBoot 入门。</span>
+            </a>
+            <a class="note-link" href="ai-java-learning-practice/java-frameworks/day03_SpringMVC/day03_SpringMVC.html" data-doc="ai-java-learning-practice/java-frameworks/day03_SpringMVC/day03_SpringMVC.html" data-view="html">
+              <strong>Java Frameworks · Day 03 HTML</strong>
+              <span>SpringMVC 请求映射、参数接收、JSON 与 Servlet API。</span>
+            </a>
+            <a class="note-link" href="ai-java-learning-practice/java-frameworks/day04_SpringMVC/day04_SpringMVC.html" data-doc="ai-java-learning-practice/java-frameworks/day04_SpringMVC/day04_SpringMVC.html" data-view="html">
+              <strong>Java Frameworks · Day 04 HTML</strong>
+              <span>转发、重定向、共享域、模板页面、RESTful 与响应结构。</span>
+            </a>
+            <a class="note-link" href="ai-java-learning-practice/java-frameworks/day05_SpringIOC/day05_SpringIOC.html" data-doc="ai-java-learning-practice/java-frameworks/day05_SpringIOC/day05_SpringIOC.html" data-view="html">
+              <strong>Java Frameworks · Day 05 HTML</strong>
+              <span>SpringMVC 高级扩展、MVC、三层架构、Spring IOC 与依赖注入。</span>
             </a>
             <a class="note-link" href="ai-website-building/manual.md" data-doc="ai-website-building/manual.md">
               <strong>网站建设 · SEO 学习指南</strong>
@@ -992,6 +1012,9 @@
 
       noteLinks.forEach((link) => {
         link.addEventListener("click", async (event) => {
+          if (link.dataset.view === "html") {
+            return;
+          }
           event.preventDefault();
           const path = link.dataset.doc;
 
