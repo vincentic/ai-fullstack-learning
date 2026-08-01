@@ -24,6 +24,12 @@
     .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
     figure { margin: 0; border: 1px solid rgba(24,32,51,.12); border-radius: 8px; background: rgba(255,255,255,.86); padding: 10px; }
     img { display: block; width: 100%; height: auto; border-radius: 6px; }
+    .gallery img { cursor: zoom-in; transition: transform .2s ease, box-shadow .2s ease; }
+    .gallery img:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(24,32,51,.16); }
+    .image-lightbox { position: fixed; inset: 0; z-index: 20; display: none; align-items: center; justify-content: center; padding: 22px; background: rgba(10,16,28,.82); cursor: zoom-out; }
+    .image-lightbox.active { display: flex; }
+    .image-lightbox img { max-width: min(96vw, 1280px); max-height: 92vh; width: auto; border-radius: 8px; background: white; box-shadow: 0 24px 80px rgba(0,0,0,.38); }
+    .image-lightbox span { position: fixed; left: 24px; bottom: 18px; max-width: calc(100vw - 48px); color: white; font-size: .95rem; line-height: 1.45; }
     figcaption { margin-top: 8px; color: #5b6d86; font-size: .9rem; line-height: 1.4; }
     pre { overflow-x: auto; white-space: pre-wrap; word-break: break-word; border: 1px solid rgba(24,32,51,.12); border-radius: 8px; background: rgba(255,255,255,.92); padding: 18px; line-height: 1.72; font-size: .96rem; }
     .empty { color: #5b6d86; }
@@ -361,5 +367,47 @@
    2) 如何解决依赖冲突问题？</pre>
     </section>
   </main>
+<script>
+  const zoomableImages = document.querySelectorAll(".gallery img");
+  if (zoomableImages.length) {
+    const lightbox = document.createElement("div");
+    lightbox.className = "image-lightbox";
+    lightbox.setAttribute("role", "dialog");
+    lightbox.setAttribute("aria-modal", "true");
+    lightbox.innerHTML = "<img alt=""><span></span>";
+    document.body.appendChild(lightbox);
+
+    const lightboxImage = lightbox.querySelector("img");
+    const lightboxCaption = lightbox.querySelector("span");
+    const closeLightbox = () => lightbox.classList.remove("active");
+
+    zoomableImages.forEach((image) => {
+      image.setAttribute("tabindex", "0");
+      image.setAttribute("title", "点击放大");
+
+      const openLightbox = () => {
+        lightboxImage.src = image.currentSrc || image.src;
+        lightboxImage.alt = image.alt || "课程图片";
+        lightboxCaption.textContent = image.alt || "课程图片";
+        lightbox.classList.add("active");
+      };
+
+      image.addEventListener("click", openLightbox);
+      image.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openLightbox();
+        }
+      });
+    });
+
+    lightbox.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeLightbox();
+      }
+    });
+  }
+</script>
 </body>
 </html>
