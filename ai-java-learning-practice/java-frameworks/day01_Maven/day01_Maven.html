@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>day01_Maven：Maven</title>
+  <style>
+    :root {
+      font-family: Inter, "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: #182033;
+      background: #f6f8fc;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: linear-gradient(135deg, #f6f8fc, #fffdf8 58%, #e8f2fb); }
+    .page { max-width: 1120px; margin: 0 auto; padding: 28px 18px 52px; }
+    .top { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 22px; }
+    .brand { color: #0f8aa8; font-weight: 800; letter-spacing: .04em; }
+    .nav { display: flex; flex-wrap: wrap; gap: 10px; }
+    .nav a { color: #4d5f78; text-decoration: none; border: 1px solid rgba(24,32,51,.12); background: rgba(255,255,255,.72); padding: 7px 10px; border-radius: 8px; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.15; }
+    .subtitle { margin: 0 0 24px; color: #5b6d86; }
+    section { margin-top: 24px; }
+    h2 { font-size: 1.25rem; margin: 0 0 14px; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    figure { margin: 0; border: 1px solid rgba(24,32,51,.12); border-radius: 8px; background: rgba(255,255,255,.86); padding: 10px; }
+    img { display: block; width: 100%; height: auto; border-radius: 6px; }
+    figcaption { margin-top: 8px; color: #5b6d86; font-size: .9rem; line-height: 1.4; }
+    pre { overflow-x: auto; white-space: pre-wrap; word-break: break-word; border: 1px solid rgba(24,32,51,.12); border-radius: 8px; background: rgba(255,255,255,.92); padding: 18px; line-height: 1.72; font-size: .96rem; }
+    .empty { color: #5b6d86; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="top">
+      <a class="brand" href="../index.html">Java Frameworks</a>
+      <nav class="nav" aria-label="课程导航">
+          <a href="../day01_Maven/day01_Maven.html">day01_Maven</a>
+          <a href="../day02_Web/day02_Web.html">day02_Web</a>
+          <a href="../day03_SpringMVC/day03_SpringMVC.html">day03_SpringMVC</a>
+          <a href="../day04_SpringMVC/day04_SpringMVC.html">day04_SpringMVC</a>
+          <a href="../day05_SpringIOC/day05_SpringIOC.html">day05_SpringIOC</a>
+      </nav>
+    </div>
+    <h1>day01_Maven：Maven</h1>
+    <p class="subtitle">由原始笔记整理生成，保留完整正文与本节截图。</p>
+    <section>
+      <h2>课程资料</h2>
+      <div class="gallery">
+        <figure><img src="1.Maven工作原理.png" alt="1.Maven工作原理"><figcaption>1.Maven工作原理</figcaption></figure>
+        <figure><img src="2.IDEA中集成Maven设置.jpg" alt="2.IDEA中集成Maven设置"><figcaption>2.IDEA中集成Maven设置</figcaption></figure>
+        <figure><img src="3.IDEA中集成Maven全局设置.jpg" alt="3.IDEA中集成Maven全局设置"><figcaption>3.IDEA中集成Maven全局设置</figcaption></figure>
+        <figure><img src="4.IDEA中集成Maven全局设置-自动编译.jpg" alt="4.IDEA中集成Maven全局设置-自动编译"><figcaption>4.IDEA中集成Maven全局设置-自动编译</figcaption></figure>
+        <figure><img src="5.maven项目约定目录结构.jpg" alt="5.maven项目约定目录结构"><figcaption>5.maven项目约定目录结构</figcaption></figure>
+        <figure><img src="6-maven生命周期任务.png" alt="6-maven生命周期任务"><figcaption>6-maven生命周期任务</figcaption></figure>
+        <figure><img src="7.依赖传递.png" alt="7.依赖传递"><figcaption>7.依赖传递</figcaption></figure>
+      </div>
+    </section>
+    <section>
+      <h2>笔记正文</h2>
+      <pre>1.Maven是什么？作用？核心？
+
+	是什么？`Maven` 是一款为 Java 项目提供「构建」与「依赖管理」的工具（软件）。
+	
+	作用？
+	
+		自动构建
+		
+			清理 -&gt; 编译 -&gt;  测试 -&gt;  报告 -&gt; 打包 -&gt; 安装 -&gt; 部署
+		
+		依赖管理
+		
+			以前需要下载导入很多jar包，会出现jar包之间冲突。
+			
+			现在maven帮我们管理jar包。
+			
+
+		
+	好处：使用 Maven 可以自动化完成编译、测试、打包、发布等流程，从而提升开发效率与交付质量。
+
+
+2.安装与配置
+
+	下载：https://maven.apache.org
+
+		
+	安装：
+	
+			D:\Server\apache-maven-3.9.11\conf\settings.xml
+			
+			本地库：  &lt;localRepository&gt;D:/RepMavenIdea260108&lt;/localRepository&gt;
+			
+			远程镜像仓库：
+				&lt;mirror&gt;
+				  &lt;id&gt;alimaven&lt;/id&gt;
+				  &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+				  &lt;name&gt;aliyun maven&lt;/name&gt;
+				  &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
+				&lt;/mirror&gt;
+		
+			JDK版本：
+				&lt;profile&gt;
+					&lt;id&gt;jdk-17&lt;/id&gt;
+					&lt;activation&gt;
+					  &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+					  &lt;jdk&gt;17&lt;/jdk&gt;
+					&lt;/activation&gt;
+					&lt;properties&gt;
+					  &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+					  &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
+					  &lt;maven.compiler.compilerVersion&gt;17&lt;/maven.compiler.compilerVersion&gt;
+					&lt;/properties&gt;
+				&lt;/profile&gt;
+
+	环境变量：	
+		maven依赖JAVA_HOME环境变量。
+		JAVA_HOME=C:\Java\jdk-17.0.5
+		M2_HOME=D:\Server\apache-maven-3.9.11
+		PATH=%JAVA_HOME%\bin;%M2_HOME%\bin
+		
+		mvn --version 查看版本
+
+	IDEA集成: 
+		maven设置，参考截图
+
+3.核心概念 
+
+	packaging项目类型：
+	
+		&lt;!--Maven项目三种类型，默认jar  [pom,jar,war]--&gt;
+		
+		&lt;packaging&gt;jar&lt;/packaging&gt;
+		
+
+	(1) POM模型: Project Object Model
+	
+		对pom.xml解析解析，然后根据生命周期和相关插件执行任务。
+	
+	(2) 坐标：GAV （GroupId AtifactId Version）
+	
+		    &lt;!--坐标：每个项目都有的一个唯一标识
+				groupId：公司、部门、事业部
+				artifactId：项目会被拆成很多模块。模块化开发。
+				version：版本
+			--&gt;
+			&lt;groupId&gt;com.atguigu&lt;/groupId&gt;
+			&lt;artifactId&gt;maven_demo&lt;/artifactId&gt;
+			&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+			
+			
+			安装和查找：
+			
+				自动生成仓库路径： com\atguigu\maven_demo\0.0.1-SNAPSHOT
+				
+					规则：groupId\artifactId\version\artifactId-version.jar
+		
+		
+				案例1：
+
+					依赖于MySQL驱动，得通过坐标进行查找：https://mvnrepository.com/
+					
+							&lt;!-- Source: https://mvnrepository.com/artifact/mysql/mysql-connector-java --&gt;
+							&lt;dependency&gt;
+								&lt;groupId&gt;mysql&lt;/groupId&gt;
+								&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+								&lt;version&gt;8.0.30&lt;/version&gt;
+								&lt;scope&gt;compile&lt;/scope&gt;
+							&lt;/dependency&gt;
+
+							路径：mysql\mysql-connector-java\8.0.30\mysql-connector-java-8.0.30.jar
+				案例2：
+				
+					        &lt;!-- Source: https://mvnrepository.com/artifact/org.projectlombok/lombok --&gt;
+							&lt;dependency&gt;
+								&lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+								&lt;artifactId&gt;lombok&lt;/artifactId&gt;
+								&lt;version&gt;1.18.38&lt;/version&gt;
+								&lt;scope&gt;compile&lt;/scope&gt;
+							&lt;/dependency&gt;
+							
+							路径：org\projectlombok\lombok\1.18.38\lombok-1.18.38.jar
+		
+				
+						
+		
+		
+	(3) 约定的目录结构
+		- `pom.xml`：Maven 项目管理文件，用于描述项目依赖与构建配置等信息  
+		- `src/main/java`：项目 Java 源代码（标准 MVC 架构代码）  
+		- `src/main/resources`：资源目录（配置文件、静态资源等）  
+		- `src/test/java`：测试代码目录  
+		- `src/test/resources`：测试资源目录（测试配置等）
+	
+	(4) 依赖管理 (重点)
+	
+		依赖范围：
+
+		&lt;!--全局属性定义--&gt;
+		&lt;properties&gt;
+			&lt;java.version&gt;17&lt;/java.version&gt;
+			&lt;mysql.version&gt;8.0.30&lt;/mysql.version&gt;
+		&lt;/properties&gt;
+		
+		
+		&lt;dependency&gt;
+            &lt;groupId&gt;&lt;/groupId&gt;
+            &lt;artifactId&gt;&lt;/artifactId&gt;
+            &lt;version&gt;&lt;/version&gt;
+            &lt;scope&gt;compile&lt;/scope&gt;                依赖范围：compile(默认，可以省略不配)    provided     test    runtime
+        &lt;/dependency&gt;
+		
+		依赖范围：
+			- compile ：main 目录、test 目录、运行、打包 [默认]
+			- provided：main 目录、test 目录            Servlet  不需要参与打包部署，因为Tomcat已经提供了。
+			- runtime ：运行、打包                      MySQL驱动
+			- test    ：test 目录                       JUnit    不给main代码使用，也不参与打包部署
+		
+		&lt;dependencies&gt;
+			重点是坐标：https://mvnrepository.com/
+			
+			1.依赖下载失败情况，如何解决？
+				依赖坐标下载资源不存在，那么会在仓库中存在很多的垃圾：.lastUpdated
+				要么手动一个一个删除；要么使用批处理命令删除：清理maven错误缓存.bat （使用时需要修改下仓库目录）
+
+			2.依赖传递性：
+				
+				直接依赖
+				
+				间接依赖
+
+			3.依赖冲突特性：
+			
+				手动：
+					&lt;dependency&gt;
+						&lt;groupId&gt;com.atguigu&lt;/groupId&gt;
+						&lt;artifactId&gt;B&lt;/artifactId&gt;
+						&lt;version&gt;0.0.1&lt;/version&gt;
+						&lt;!--排除依赖--&gt;
+						&lt;exclusions&gt;
+							&lt;exclusion&gt;
+								&lt;groupId&gt;commons-logging&lt;/groupId&gt;
+								&lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+							&lt;/exclusion&gt;
+						&lt;/exclusions&gt;
+					&lt;/dependency&gt;
+				
+				自动：
+					两个规则：
+						1.路径短者优先
+						2.路径相同时，先声明者优先
+
+			
+		面试题：&lt;dependencies&gt;和&lt;dependencyManagement&gt;使用区别？
+
+
+	(5) 生命周期
+	
+		- clean: 将target目录删除
+		
+		- site: 生成项目说明网站
+		
+		- default: 重点
+		
+			清理 -&gt; 编译 -&gt;  测试 -&gt;  报告 -&gt; 打包 -&gt; 安装 -&gt; 部署
+			
+	
+	(6) 插件和目标
+	
+		仓库\org\apache\maven\plugins\
+			maven-assembly-plugin
+			maven-clean-plugin      清理
+			maven-compiler-plugin   编译
+			maven-dependency-plugin
+			maven-deploy-plugin     部署
+			maven-enforcer-plugin
+			maven-failsafe-plugin
+			maven-help-plugin
+			maven-install-plugin    安装
+			maven-invoker-plugin
+			maven-jar-plugin        打包
+			maven-javadoc-plugin
+			maven-plugins
+			maven-project-info-reports-plugin
+			maven-release-plugin
+			maven-resources-plugin  资源
+			maven-shade-plugin
+			maven-site-plugin       生成网站
+			maven-source-plugin
+			maven-surefire-plugin
+			maven-war-plugin
+
+	
+	(7) 继承
+	
+		dependencies(只要声明就下载) : 父模块的dependencies里声明的依赖，子模块直接使用，无需任何声明。
+		dependencyManagement(只声明不下载,孩子模块用时才会下载) : 父模块dependencyManagement里声明的依赖，子模块需要声明后才能使用。
+
+		这两个标签声明依赖，都是父模块统计进行版本管理。
+
+		
+	(8) 聚合
+	
+		当前项目必须是pom类型
+	
+		&lt;!--聚合： 一键操作
+			例如：对父模块进行编译，所有被聚合模块都跟着编译。
+		--&gt;
+		&lt;modules&gt;
+			&lt;module&gt;A&lt;/module&gt;
+			&lt;module&gt;B&lt;/module&gt;
+			&lt;module&gt;C&lt;/module&gt;
+			&lt;module&gt;D&lt;/module&gt;
+			&lt;module&gt;E&lt;/module&gt;&lt;!--不是继承关系也能被聚合--&gt;
+		&lt;/modules&gt;
+
+	
+	(9) 仓库
+	
+		- 本地仓库：
+			
+			设置：settings.xml 
+				&lt;localRepository&gt;D:/RepMavenIdea260108&lt;/localRepository&gt;
+				
+		- 中央仓库：
+			https://mvnrepository.com/          查找坐标网站
+			
+			https://repo.maven.apache.org      下载网址
+
+		- 远程镜像仓库：国内     是中央仓库副本
+		
+			&lt;mirror&gt;
+			  &lt;id&gt;alimaven&lt;/id&gt;
+			  &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+			  &lt;name&gt;aliyun maven&lt;/name&gt;
+			  &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
+			&lt;/mirror&gt;
+			
+		仓库里都有啥？大概分三类
+		
+			org\apache\maven\plugins    				放的都是Maven的插件
+			
+			com\atguigu\                				存放自己项目打包后安装模块
+			
+			剩余的，例如mysql\mysql-connector-java      都属于第三方框架或组件
+		
+		共享项目时，无需共享本地库。
+
+	注意事项：
+	
+		1.避免循环依赖
+	
+	
+4.实战
+
+
+
+
+5.面试题？
+
+   1) dependencies和dependencyManagement使用区别？
+   
+   2) 如何解决依赖冲突问题？</pre>
+    </section>
+  </main>
+</body>
+</html>
