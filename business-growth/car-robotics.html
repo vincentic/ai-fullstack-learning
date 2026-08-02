@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>汽车机器人产业 AI · 每日成长清单</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        --bg: #f5f7fa;
+        --surface: #ffffff;
+        --surface-soft: #eef3f7;
+        --text: #172033;
+        --muted: #5d6c7f;
+        --line: #d8e0e8;
+        --blue: #126d8c;
+        --green: #28785d;
+        --amber: #9a6515;
+        --red: #a54842;
+        --violet: #5e5aa8;
+        --shadow: rgba(28, 45, 68, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .app {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        border-right: 1px solid var(--line);
+        background: #fbfcfd;
+        padding: 20px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: auto;
+      }
+
+      .brand {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+
+      .brand a {
+        color: var(--blue);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 1.25rem;
+        line-height: 1.35;
+      }
+
+      .brand p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .nav {
+        display: grid;
+        gap: 8px;
+      }
+
+      .nav a {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        color: #304257;
+        padding: 10px 11px;
+        font-size: 0.92rem;
+        font-weight: 700;
+      }
+
+      .nav a:hover,
+      .nav a:focus-visible {
+        background: var(--surface-soft);
+        border-color: var(--line);
+        outline: none;
+      }
+
+      main {
+        min-width: 0;
+        padding: 24px;
+      }
+
+      .workspace {
+        max-width: 1180px;
+        margin: 0 auto;
+        display: grid;
+        gap: 20px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      .hero-copy,
+      .status-panel,
+      .panel,
+      .task-row,
+      .route-step {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 12px 30px var(--shadow);
+      }
+
+      .hero-copy {
+        padding: 24px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .eyebrow {
+        color: var(--blue);
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero h2 {
+        margin: 0;
+        font-size: clamp(1.8rem, 3vw, 3rem);
+        line-height: 1.12;
+      }
+
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .formula {
+        border-left: 4px solid var(--green);
+        background: #f3f8f5;
+        padding: 12px 14px;
+        color: #23483b;
+        font-weight: 800;
+        line-height: 1.6;
+      }
+
+      .status-panel {
+        padding: 20px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .date-line {
+        display: grid;
+        gap: 8px;
+      }
+
+      .date-line label {
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-weight: 700;
+      }
+
+      .date-line input {
+        width: 100%;
+        min-height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px 10px;
+        color: var(--text);
+        background: #fff;
+      }
+
+      .progress-wrap {
+        display: grid;
+        gap: 8px;
+      }
+
+      .progress-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 800;
+      }
+
+      .progress-track {
+        height: 12px;
+        border-radius: 999px;
+        background: #e7edf2;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--blue), var(--green));
+        transition: width 0.2s ease;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .actions button,
+      .actions a {
+        min-height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface-soft);
+        color: #26384d;
+        cursor: pointer;
+        font-weight: 800;
+        padding: 8px 11px;
+      }
+
+      .actions button.primary {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: #fff;
+      }
+
+      .section {
+        display: grid;
+        gap: 12px;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 16px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: 1.16rem;
+      }
+
+      .section-head p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .badge {
+        flex: 0 0 auto;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: #31475e;
+        font-size: 0.82rem;
+        font-weight: 800;
+        padding: 6px 10px;
+      }
+
+      .task-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .task-row {
+        display: grid;
+        grid-template-columns: 40px minmax(0, 1fr) 112px;
+        gap: 12px;
+        align-items: start;
+        padding: 14px;
+      }
+
+      .task-row input[type="checkbox"] {
+        width: 22px;
+        height: 22px;
+        margin: 4px auto 0;
+        accent-color: var(--green);
+      }
+
+      .task-main {
+        min-width: 0;
+        display: grid;
+        gap: 6px;
+      }
+
+      .task-main h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .task-main p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 0.93rem;
+      }
+
+      .task-options {
+        color: #2f445c;
+        font-size: 0.88rem;
+        line-height: 1.7;
+      }
+
+      .time-pill {
+        justify-self: end;
+        min-width: 86px;
+        text-align: center;
+        border-radius: 999px;
+        background: #edf6f3;
+        color: var(--green);
+        font-size: 0.82rem;
+        font-weight: 900;
+        padding: 7px 10px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .panel {
+        padding: 18px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .panel h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .question-bank {
+        display: grid;
+        gap: 8px;
+      }
+
+      .question-bank button {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: #26384d;
+        cursor: pointer;
+        min-height: 38px;
+        padding: 8px 10px;
+        text-align: left;
+      }
+
+      .question-bank button:hover,
+      .question-bank button:focus-visible {
+        border-color: var(--blue);
+        outline: none;
+      }
+
+      textarea,
+      .text-input {
+        width: 100%;
+        min-height: 88px;
+        resize: vertical;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        padding: 10px;
+        line-height: 1.6;
+      }
+
+      .text-input {
+        min-height: 40px;
+      }
+
+      .low-energy {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .mini {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        padding: 12px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .mini strong {
+        color: var(--amber);
+      }
+
+      .mini span {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+
+      .route {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .route-step {
+        padding: 13px;
+        display: grid;
+        gap: 8px;
+        min-height: 150px;
+      }
+
+      .route-step strong {
+        color: var(--violet);
+      }
+
+      .route-step span {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+
+      .no-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .no-list span {
+        border: 1px solid #efd4d0;
+        border-radius: 999px;
+        background: #fff5f3;
+        color: var(--red);
+        font-size: 0.88rem;
+        font-weight: 800;
+        padding: 7px 10px;
+      }
+
+      @media (max-width: 980px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        main {
+          padding: 16px;
+        }
+
+        .hero,
+        .grid-2,
+        .route {
+          grid-template-columns: 1fr;
+        }
+
+        .low-energy {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 620px) {
+        .task-row {
+          grid-template-columns: 34px minmax(0, 1fr);
+        }
+
+        .time-pill {
+          grid-column: 2;
+          justify-self: start;
+        }
+
+        .low-energy,
+        .nav {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <a href="../index.html#notes">返回模块索引</a>
+          <h1>汽车机器人产业 AI 每日成长清单</h1>
+          <p>每天把一点产业知识，变成一小块可运行的 AI 产品。</p>
+        </div>
+        <nav class="nav" aria-label="页面导航">
+          <a href="#daily">每日清单</a>
+          <a href="#evidence">证据复盘</a>
+          <a href="#low-energy">极低能量</a>
+          <a href="#capability">能力树</a>
+          <a href="#weekly">每周计划</a>
+        </nav>
+      </aside>
+
+      <main>
+        <div class="workspace">
+          <section class="hero" id="top">
+            <div class="hero-copy">
+              <div class="eyebrow">Industrial AI Product Engineer</div>
+              <h2>面向汽车、机器人和智能制造的人机决策系统训练台</h2>
+              <p>核心身份：把产业知识、历史记录和实时数据，转化为可理解、可执行、可追溯的人机决策系统。</p>
+              <div class="formula">职业价值 = 技术交付 × 产业理解 × 决策能力 × 人机交互 × 可信证据</div>
+            </div>
+            <div class="status-panel">
+              <div class="date-line">
+                <label for="check-date">日期</label>
+                <input id="check-date" type="date" />
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-head">
+                  <span>今日进度</span>
+                  <span id="progress-text">0 / 5</span>
+                </div>
+                <div class="progress-track" aria-hidden="true">
+                  <div class="progress-bar" id="progress-bar"></div>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="primary" type="button" id="copy-summary">复制今日记录</button>
+                <button type="button" id="reset-today">清空今日</button>
+                <a href="car-robotics.md">打开原始文档</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="daily">
+            <div class="section-head">
+              <div>
+                <h2>60分钟最小每日清单</h2>
+                <p>只保留身体、英语、核心项目、产业问题、证据复盘五项。</p>
+              </div>
+              <span class="badge">合格线：留下证据</span>
+            </div>
+            <div class="task-list">
+              <label class="task-row">
+                <input type="checkbox" data-check="body" />
+                <span class="task-main">
+                  <h3>身体</h3>
+                  <p>身体连续活动10分钟，不刷手机。</p>
+                  <span class="task-options">快走 / 站桩 / 拉伸 / 徒手训练</span>
+                </span>
+                <span class="time-pill">10分钟</span>
+              </label>
+              <label class="task-row">
+                <input type="checkbox" data-check="english" />
+                <span class="task-main">
+                  <h3>英语</h3>
+                  <p>直接阅读当天项目需要的英文资料，记录3个词，用英文写一句总结。</p>
+                  <span class="task-options">API文档 / GitHub README / Issue / 技术文章</span>
+                </span>
+                <span class="time-pill">10分钟</span>
+              </label>
+              <label class="task-row">
+                <input type="checkbox" data-check="project" />
+                <span class="task-main">
+                  <h3>核心项目</h3>
+                  <p>机器人设备知识与决策助手今天增加一个可以运行、截图、测试或提交的变化。</p>
+                  <span class="task-options">输入框 / 模型调用 / PDF上传 / 文档切分 / 出处 / 错误处理 / 测试问题</span>
+                </span>
+                <span class="time-pill">30分钟</span>
+              </label>
+              <label class="task-row">
+                <input type="checkbox" data-check="industry" />
+                <span class="task-main">
+                  <h3>产业问题</h3>
+                  <p>只回答一个问题，只写一句，不展开研究。</p>
+                  <span class="task-options">谁使用 / 人工流程 / 最费时间 / 错误损失 / 责任归属 / 付费理由 / 可复用点</span>
+                </span>
+                <span class="time-pill">5分钟</span>
+              </label>
+              <label class="task-row">
+                <input type="checkbox" data-check="review" />
+                <span class="task-main">
+                  <h3>证据与复盘</h3>
+                  <p>证据只能是 Git 提交、截图、测试结果、一段可运行代码或一条明确结论。</p>
+                  <span class="task-options">不要用“学习了”“了解了”“思考了”作为完成证据</span>
+                </span>
+                <span class="time-pill">5分钟</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="section grid-2" id="evidence">
+            <div class="panel">
+              <h3>产业问题库</h3>
+              <div class="question-bank">
+                <button type="button" data-question="这个系统为谁解决问题？">这个系统为谁解决问题？</button>
+                <button type="button" data-question="当前人工怎样完成？">当前人工怎样完成？</button>
+                <button type="button" data-question="哪一步最费时间？">哪一步最费时间？</button>
+                <button type="button" data-question="错误会造成什么损失？">错误会造成什么损失？</button>
+                <button type="button" data-question="AI回答错误时谁负责？">AI回答错误时谁负责？</button>
+                <button type="button" data-question="为什么企业愿意付钱？">为什么企业愿意付钱？</button>
+                <button type="button" data-question="汽车和机器人中哪里可复用？">汽车和机器人中哪里可复用？</button>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>今日记录</h3>
+              <label>
+                今日完成
+                <textarea data-field="done" placeholder="今天最小成果"></textarea>
+              </label>
+              <label>
+                证据
+                <textarea data-field="evidence" placeholder="提交、截图、测试结果、可运行代码或明确结论"></textarea>
+              </label>
+              <label>
+                最大阻力
+                <textarea data-field="blocker" placeholder="今天最卡住的地方"></textarea>
+              </label>
+              <label>
+                明天第一步
+                <textarea data-field="next" placeholder="明天打开就能继续的动作"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="section" id="low-energy">
+            <div class="section-head">
+              <div>
+                <h2>极低能量版本</h2>
+                <p>状态很差时，不取消，只降级。最低动作是为了保持返回通道。</p>
+              </div>
+              <span class="badge">15分钟</span>
+            </div>
+            <div class="low-energy">
+              <div class="mini"><strong>身体</strong><span>站立或步行2分钟</span></div>
+              <div class="mini"><strong>英语</strong><span>阅读3句英文文档</span></div>
+              <div class="mini"><strong>项目</strong><span>打开项目，修改一行或写一个TODO</span></div>
+              <div class="mini"><strong>产业</strong><span>写一个问题</span></div>
+              <div class="mini"><strong>证据</strong><span>截图或提交</span></div>
+            </div>
+          </section>
+
+          <section class="section" id="capability">
+            <div class="section-head">
+              <div>
+                <h2>长期能力树</h2>
+                <p>主干能力先建立，再使用复用层和期权层放大。</p>
+              </div>
+              <span class="badge">不能倒过来</span>
+            </div>
+            <div class="route">
+              <div class="route-step"><strong>0-6个月</strong><span>从前端进入 AI 界面：Python、FastAPI、LLM API、基础 RAG、英文技术阅读。</span></div>
+              <div class="route-step"><strong>6-18个月</strong><span>从 Demo 进入产业系统：SQL、权限、混合检索、人工审批、日志与评测。</span></div>
+              <div class="route-step"><strong>18-36个月</strong><span>从开发者进入 AI 产品工程师：访谈、流程、ROI、风险、小规模试点。</span></div>
+              <div class="route-step"><strong>3-5年</strong><span>从产品工程师进入产业负责人：纵深知识、解决方案、路线、团队和客户。</span></div>
+              <div class="route-step"><strong>5-10年</strong><span>进入平台和生态：垂直 AI、开发者平台、产业教育、科技史传播。</span></div>
+            </div>
+          </section>
+
+          <section class="section grid-2" id="weekly">
+            <div class="panel">
+              <h3>每周7小时最低配</h3>
+              <div class="task-options">
+                产业AI项目：3小时<br />
+                Python/RAG学习：1.5小时<br />
+                英语技术阅读：1小时<br />
+                汽车/机器人产业分析：30分钟<br />
+                项目复盘与内容输出：1小时
+              </div>
+            </div>
+            <div class="panel">
+              <h3>暂时不要加入每日清单</h3>
+              <div class="no-list">
+                <span>德语</span>
+                <span>俄语</span>
+                <span>大量历史阅读</span>
+                <span>多个AI框架</span>
+                <span>第二个项目</span>
+                <span>社交平台每日运营</span>
+                <span>复杂情绪评分</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const dateInput = document.querySelector("#check-date");
+      const checks = [...document.querySelectorAll("[data-check]")];
+      const fields = [...document.querySelectorAll("[data-field]")];
+      const progressText = document.querySelector("#progress-text");
+      const progressBar = document.querySelector("#progress-bar");
+      const resetButton = document.querySelector("#reset-today");
+      const copyButton = document.querySelector("#copy-summary");
+      const questionButtons = document.querySelectorAll("[data-question]");
+
+      const today = new Date().toISOString().slice(0, 10);
+      dateInput.value = localStorage.getItem("carRoboticsDate") || today;
+
+      const key = () => `carRoboticsChecklist:${dateInput.value}`;
+
+      const loadState = () => {
+        const state = JSON.parse(localStorage.getItem(key()) || "{}");
+        checks.forEach((item) => {
+          item.checked = Boolean(state[item.dataset.check]);
+        });
+        fields.forEach((field) => {
+          field.value = state[field.dataset.field] || "";
+        });
+        updateProgress();
+      };
+
+      const saveState = () => {
+        const state = {};
+        checks.forEach((item) => {
+          state[item.dataset.check] = item.checked;
+        });
+        fields.forEach((field) => {
+          state[field.dataset.field] = field.value;
+        });
+        localStorage.setItem("carRoboticsDate", dateInput.value);
+        localStorage.setItem(key(), JSON.stringify(state));
+        updateProgress();
+      };
+
+      const updateProgress = () => {
+        const done = checks.filter((item) => item.checked).length;
+        progressText.textContent = `${done} / ${checks.length}`;
+        progressBar.style.width = `${(done / checks.length) * 100}%`;
+      };
+
+      checks.forEach((item) => item.addEventListener("change", saveState));
+      fields.forEach((field) => itemListener(field));
+
+      function itemListener(field) {
+        field.addEventListener("input", saveState);
+      }
+
+      dateInput.addEventListener("change", () => {
+        localStorage.setItem("carRoboticsDate", dateInput.value);
+        loadState();
+      });
+
+      resetButton.addEventListener("click", () => {
+        localStorage.removeItem(key());
+        loadState();
+      });
+
+      questionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const done = document.querySelector('[data-field="done"]');
+          done.value = button.dataset.question;
+          saveState();
+          done.focus();
+        });
+      });
+
+      copyButton.addEventListener("click", async () => {
+        const lines = [
+          `日期：${dateInput.value}`,
+          "",
+          ...checks.map((item) => `${item.checked ? "☑" : "☐"} ${item.closest(".task-row").querySelector("h3").textContent}`),
+          "",
+          `今日完成：${document.querySelector('[data-field="done"]').value}`,
+          `证据：${document.querySelector('[data-field="evidence"]').value}`,
+          `最大阻力：${document.querySelector('[data-field="blocker"]').value}`,
+          `明天第一步：${document.querySelector('[data-field="next"]').value}`
+        ];
+        await navigator.clipboard.writeText(lines.join("\n"));
+        copyButton.textContent = "已复制";
+        setTimeout(() => {
+          copyButton.textContent = "复制今日记录";
+        }, 1200);
+      });
+
+      loadState();
+    </script>
+  </body>
+</html>
