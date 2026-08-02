@@ -343,7 +343,7 @@
               <h2>模块索引导航</h2>
               <p>按 Java、SEO、产品、设计、业务等模块切换左侧标签，再在中间列表选择 Markdown 预览或 HTML 页面。</p>
             </div>
-            <span class="doc-count">47 篇 Markdown · 6 个 HTML 应用</span>
+            <span class="doc-count">47 篇 Markdown · 7 个 HTML 应用</span>
           </div>
           <div class="notes-browser">
             <div class="notes-tabs" role="tablist" aria-label="模块索引导航">
@@ -531,6 +531,10 @@
               <strong>产研应用 · 汽车机器人产业 AI 打卡台</strong>
               <span>把每日成长清单做成可勾选、可记录、可复制复盘的 HTML 工具页。</span>
             </a>
+            <a class="note-link" href="business-growth/industry-research.html" data-doc="business-growth/industry-research.html" data-view="html">
+              <strong>产研应用 · 亦庄产业 AI 调研工作台</strong>
+              <span>围绕亦庄、汽车、机器人、语言杠杆和产业 AI 机会建立调研与决策模块。</span>
+            </a>
             <a class="note-link" href="product-growth/roadmap.md" data-doc="product-growth/roadmap.md">
               <strong>产品成长 · Roadmap</strong>
               <span>用户需求、竞品分析、PRD、原型、指标和交付路线。</span>
@@ -602,7 +606,7 @@
       const readerClose = document.querySelector("#reader-close");
 
       const getNoteCategory = (path) => {
-        if (path === "business-growth/car-robotics.html") {
+        if (path === "business-growth/car-robotics.html" || path === "business-growth/industry-research.html") {
           return "rnd";
         }
         if (path.startsWith("ai-java-learning-practice/") || path === "plan.md") {

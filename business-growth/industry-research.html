@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>亦庄产业 AI 调研工作台</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        --bg: #f4f7f8;
+        --surface: #ffffff;
+        --soft: #edf3f5;
+        --text: #172033;
+        --muted: #617084;
+        --line: #d7e1e5;
+        --blue: #126d8c;
+        --green: #2f765b;
+        --gold: #93651f;
+        --red: #a34945;
+        --ink: #24384f;
+        --shadow: rgba(31, 51, 70, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+
+      .layout {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 270px minmax(0, 1fr);
+      }
+
+      .rail {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: auto;
+        border-right: 1px solid var(--line);
+        background: #fbfcfd;
+        padding: 20px;
+      }
+
+      .brand {
+        display: grid;
+        gap: 9px;
+        margin-bottom: 24px;
+      }
+
+      .brand a {
+        color: var(--blue);
+        font-size: 0.9rem;
+        font-weight: 800;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.28;
+      }
+
+      .brand h1 {
+        font-size: 1.25rem;
+      }
+
+      .brand p,
+      .section-head p,
+      .muted {
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .nav {
+        display: grid;
+        gap: 8px;
+      }
+
+      .nav a {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        color: var(--ink);
+        font-size: 0.92rem;
+        font-weight: 800;
+        padding: 10px 11px;
+      }
+
+      .nav a:hover,
+      .nav a:focus-visible {
+        border-color: var(--line);
+        background: var(--soft);
+        outline: none;
+      }
+
+      main {
+        min-width: 0;
+        padding: 24px;
+      }
+
+      .workspace {
+        max-width: 1220px;
+        margin: 0 auto;
+        display: grid;
+        gap: 20px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        gap: 16px;
+      }
+
+      .hero-copy,
+      .decision-box,
+      .panel,
+      .metric,
+      .sector,
+      .timeline-item,
+      .question {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 12px 28px var(--shadow);
+      }
+
+      .hero-copy,
+      .decision-box,
+      .panel {
+        padding: 20px;
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: 16px;
+      }
+
+      .eyebrow {
+        color: var(--blue);
+        font-size: 0.82rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero h2 {
+        font-size: clamp(1.85rem, 3vw, 3.15rem);
+      }
+
+      .formula {
+        border-left: 4px solid var(--green);
+        background: #f0f8f4;
+        color: #264a3d;
+        font-weight: 900;
+        line-height: 1.7;
+        padding: 12px 14px;
+      }
+
+      .decision-box {
+        display: grid;
+        gap: 12px;
+      }
+
+      .decision-box strong {
+        color: var(--green);
+      }
+
+      .section {
+        display: grid;
+        gap: 12px;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: end;
+      }
+
+      .section-head p {
+        margin: 5px 0 0;
+      }
+
+      .badge {
+        flex: 0 0 auto;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 0.82rem;
+        font-weight: 900;
+        padding: 7px 10px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .metric {
+        padding: 15px;
+        display: grid;
+        gap: 7px;
+        min-height: 116px;
+      }
+
+      .metric strong {
+        color: var(--blue);
+        font-size: 1.45rem;
+      }
+
+      .metric span {
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 0.9rem;
+      }
+
+      .sector-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .sector {
+        padding: 15px;
+        display: grid;
+        gap: 8px;
+        min-height: 170px;
+      }
+
+      .sector h3 {
+        color: var(--ink);
+        font-size: 1rem;
+      }
+
+      .sector p,
+      .timeline-item p,
+      .question p {
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.62;
+        font-size: 0.92rem;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+
+      .tag {
+        border-radius: 999px;
+        background: var(--soft);
+        color: #304760;
+        font-size: 0.78rem;
+        font-weight: 800;
+        padding: 6px 8px;
+      }
+
+      .compare {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .compare th,
+      .compare td {
+        border-bottom: 1px solid var(--line);
+        padding: 11px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .compare th {
+        color: var(--ink);
+        background: var(--soft);
+        font-size: 0.9rem;
+      }
+
+      .compare td {
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 0.92rem;
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .timeline-item {
+        padding: 15px;
+        display: grid;
+        gap: 9px;
+      }
+
+      .timeline-item strong {
+        color: var(--gold);
+      }
+
+      .matrix {
+        display: grid;
+        gap: 10px;
+      }
+
+      .matrix-row {
+        display: grid;
+        grid-template-columns: minmax(180px, 1.4fr) repeat(5, minmax(64px, 0.6fr)) minmax(112px, 0.8fr);
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .matrix-row > span {
+        background: #fff;
+        padding: 10px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .matrix-row.header > span {
+        background: var(--soft);
+        color: var(--ink);
+        font-weight: 900;
+      }
+
+      .matrix-row .name {
+        color: var(--ink);
+        font-weight: 900;
+      }
+
+      .score {
+        text-align: center;
+        font-weight: 900;
+      }
+
+      .recommend {
+        color: var(--green);
+        font-weight: 900;
+      }
+
+      .question-list {
+        display: grid;
+        gap: 9px;
+      }
+
+      .question {
+        padding: 12px;
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .question span {
+        color: var(--blue);
+        font-weight: 900;
+      }
+
+      .language {
+        display: grid;
+        gap: 10px;
+      }
+
+      .language-row {
+        display: grid;
+        grid-template-columns: 86px minmax(0, 1fr) 130px;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .language-row strong {
+        color: var(--ink);
+      }
+
+      .bar-track {
+        height: 12px;
+        border-radius: 999px;
+        background: #e6edf0;
+        overflow: hidden;
+      }
+
+      .bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--blue), var(--green));
+      }
+
+      textarea,
+      input[type="text"],
+      select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        padding: 10px;
+        line-height: 1.55;
+      }
+
+      textarea {
+        min-height: 90px;
+        resize: vertical;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        color: var(--ink);
+        font-size: 0.9rem;
+        font-weight: 800;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .actions button,
+      .actions a {
+        min-height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+        color: var(--ink);
+        cursor: pointer;
+        font-weight: 900;
+        padding: 8px 11px;
+      }
+
+      .actions .primary {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: #fff;
+      }
+
+      .sources {
+        display: grid;
+        gap: 7px;
+      }
+
+      .sources a {
+        color: var(--blue);
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 1080px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .rail {
+          position: static;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        main {
+          padding: 16px;
+        }
+
+        .hero,
+        .grid-2,
+        .grid-3,
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+
+        .metrics,
+        .sector-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .metrics,
+        .sector-grid,
+        .form-grid,
+        .nav {
+          grid-template-columns: 1fr;
+        }
+
+        .matrix {
+          overflow-x: auto;
+        }
+
+        .matrix-row {
+          min-width: 760px;
+        }
+
+        .language-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="rail">
+        <div class="brand">
+          <a href="../index.html#notes">返回模块索引</a>
+          <h1>亦庄产业 AI 调研工作台</h1>
+          <p>用产业机会、已有能力、进入概率和长期可迁移性做选择。</p>
+        </div>
+        <nav class="nav" aria-label="页面导航">
+          <a href="#map">亦庄地图</a>
+          <a href="#cycle">十年周期</a>
+          <a href="#matrix">赛道矩阵</a>
+          <a href="#questions">公司判断</a>
+          <a href="#language">语言杠杆</a>
+          <a href="#research-card">调研卡</a>
+        </nav>
+      </aside>
+
+      <main>
+        <div class="workspace">
+          <section class="hero">
+            <div class="hero-copy">
+              <div class="eyebrow">Yizhuang + Physical AI</div>
+              <h2>产业调研不是追热点，而是找到可迁移的进入点</h2>
+              <p class="muted">截至2026年8月，亦庄已经不是单一开发区，而是以先进制造为底盘、AI为横向赋能层的产业系统。你的主线应落在产业AI知识系统、人机交互和复杂物理智能系统的可追溯决策。</p>
+              <div class="formula">产业机会 × 已有能力 × 进入概率 × 长期可迁移性</div>
+            </div>
+            <div class="decision-box">
+              <h3>最终推荐</h3>
+              <p class="muted"><strong>主赛道：</strong>产业AI知识系统。目标岗位包括 AI应用工程师、RAG工程师、AI平台前端、工业知识库产品、AI解决方案工程师。</p>
+              <p class="muted"><strong>副赛道：</strong>人机交互与产业历史。用于形成个人品牌和作品差异。</p>
+              <p class="muted"><strong>观察赛道：</strong>机器人或智能汽车。根据真实工作机会选择一个深入。</p>
+            </div>
+          </section>
+
+          <section class="section" id="map">
+            <div class="section-head">
+              <div>
+                <h2>亦庄产业地图</h2>
+                <p>先看产业系统，再决定把技能放进哪个真实场景。</p>
+              </div>
+              <span class="badge">AI 是横向基础设施</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><strong>4012亿</strong><span>2025年亦庄GDP规模，先进制造构成产业底盘。</span></div>
+              <div class="metric"><strong>7000亿</strong><span>工业总产值接近这一规模，实体产业足够厚。</span></div>
+              <div class="metric"><strong>2000亿</strong><span>2030年AI核心产业规模目标，强调芯片、算力、模型和应用。</span></div>
+              <div class="metric"><strong>300家</strong><span>机器人生态企业量级，适合做产业知识系统和场景调研。</span></div>
+            </div>
+            <div class="sector-grid">
+              <div class="sector">
+                <h3>新一代信息技术</h3>
+                <p>AI、集成电路、通信、算力、软件、工业互联网。</p>
+                <div class="tag-row"><span class="tag">模型应用</span><span class="tag">工业互联网</span><span class="tag">算力</span></div>
+              </div>
+              <div class="sector">
+                <h3>高端汽车与智能网联汽车</h3>
+                <p>新能源汽车、自动驾驶、车路云、汽车电子。</p>
+                <div class="tag-row"><span class="tag">HMI</span><span class="tag">车云平台</span><span class="tag">安全追溯</span></div>
+              </div>
+              <div class="sector">
+                <h3>机器人与智能制造</h3>
+                <p>人形机器人、工业机器人、智能装备、智能工厂。</p>
+                <div class="tag-row"><span class="tag">运维知识库</span><span class="tag">任务编排</span><span class="tag">评测</span></div>
+              </div>
+              <div class="sector">
+                <h3>生物技术与大健康</h3>
+                <p>创新药、医疗器械、合成生物、数字医疗。</p>
+                <div class="tag-row"><span class="tag">后期进入</span><span class="tag">合规检索</span><span class="tag">知识管理</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="cycle">
+            <div class="section-head">
+              <div>
+                <h2>汽车与机器人十年周期</h2>
+                <p>汽车提供五年稳定底盘，机器人提供十年增长期权。最好进入两者共享技术层。</p>
+              </div>
+              <span class="badge">物理智能路线</span>
+            </div>
+            <div class="grid-2">
+              <div class="panel">
+                <h3>智能汽车</h3>
+                <p class="muted">已经规模化的移动机器人。2026-2028年是智能化淘汰赛，2029-2032年从产品竞争转向系统竞争，2033-2036年逐渐成为稳定基础设施。</p>
+                <table class="compare">
+                  <tr><th>稳定岗位</th><td>质量和安全、车云平台、智能座舱HMI、测试仿真、工厂数字化、售后知识系统、数据合规。</td></tr>
+                  <tr><th>高风险</th><td>单一自动驾驶概念、没有量产能力的初创公司、只有演示没有运营收入的产品。</td></tr>
+                </table>
+              </div>
+              <div class="panel">
+                <h3>机器人</h3>
+                <p class="muted">正在寻找规模化场景的通用物理智能。工业机器人已经是真实产业，人形机器人仍要证明经济性。</p>
+                <table class="compare">
+                  <tr><th>稳定岗位</th><td>工业机器人集成、运维、任务调度、仿真评测、机器视觉、安全检测、工业场景AI应用。</td></tr>
+                  <tr><th>高风险</th><td>纯家庭人形机器人概念、活动演示、没有真实任务指标的产品、低估维护和人工接管成本。</td></tr>
+                </table>
+              </div>
+            </div>
+            <div class="timeline">
+              <div class="timeline-item"><strong>2026-2028</strong><h3>以汽车或智能制造为就业底盘</h3><p>目标是获得真实产业数据、上线经验、安全权限意识和完整交付闭环。</p></div>
+              <div class="timeline-item"><strong>2029-2032</strong><h3>转入两者共享层</h3><p>物理AI产品工程师、机器人/车队任务平台、RAG与产业知识架构、人机交互产品。</p></div>
+              <div class="timeline-item"><strong>2033-2036</strong><h3>选择管理、架构或创业</h3><p>产业AI架构负责人、人机协作产品负责人、物理AI开发者平台或企业知识决策系统。</p></div>
+            </div>
+          </section>
+
+          <section class="section" id="matrix">
+            <div class="section-head">
+              <div>
+                <h2>赛道选择矩阵</h2>
+                <p>分数不是绝对真理，用来避免被“热门”两个字牵着走。</p>
+              </div>
+              <span class="badge">一主一副一观察</span>
+            </div>
+            <div class="matrix" aria-label="产业方向评分矩阵">
+              <div class="matrix-row header">
+                <span>产业方向</span><span>技能</span><span>成本</span><span>收入</span><span>稳定</span><span>人本</span><span>建议</span>
+              </div>
+              <div class="matrix-row">
+                <span class="name">产业AI知识系统</span><span class="score">5</span><span class="score">3</span><span class="score">5</span><span class="score">5</span><span class="score">5</span><span class="recommend">第一选择</span>
+              </div>
+              <div class="matrix-row">
+                <span class="name">智能汽车HMI/车路云</span><span class="score">5</span><span class="score">3</span><span class="score">4</span><span class="score">5</span><span class="score">4</span><span class="recommend">第二选择</span>
+              </div>
+              <div class="matrix-row">
+                <span class="name">机器人与人机交互</span><span class="score">4</span><span class="score">4</span><span class="score">5</span><span class="score">3</span><span class="score">5</span><span class="recommend">第三选择</span>
+              </div>
+              <div class="matrix-row">
+                <span class="name">智能制造/数字孪生</span><span class="score">5</span><span class="score">3</span><span class="score">4</span><span class="score">5</span><span class="score">3</span><span class="recommend">稳健选择</span>
+              </div>
+              <div class="matrix-row">
+                <span class="name">医药AI知识系统</span><span class="score">3</span><span class="score">5</span><span class="score">4</span><span class="score">5</span><span class="score">4</span><span>后期进入</span>
+              </div>
+              <div class="matrix-row">
+                <span class="name">商业航天数字平台</span><span class="score">4</span><span class="score">5</span><span class="score">4</span><span class="score">4</span><span class="score">5</span><span>有机会再进入</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="questions">
+            <div class="section-head">
+              <div>
+                <h2>进入公司前的八个问题</h2>
+                <p>不要因为公司叫机器人或智能汽车就默认值得进入。</p>
+              </div>
+              <span class="badge">面试可用</span>
+            </div>
+            <div class="question-list">
+              <div class="question"><span>1</span><p>产品是否已经产生真实收入？客户是试用、采购还是长期续约？</p></div>
+              <div class="question"><span>2</span><p>最核心的量产或部署指标是什么？是否接触真实运营数据？</p></div>
+              <div class="question"><span>3</span><p>当前最大成本来自哪里？模型、硬件、维护、人工接管还是停机损失？</p></div>
+              <div class="question"><span>4</span><p>系统多少时间需要人工接管？接管记录如何回流并改进产品？</p></div>
+              <div class="question"><span>5</span><p>一次故障会造成什么损失？事故责任和日志如何还原？</p></div>
+              <div class="question"><span>6</span><p>岗位成果能否迁移到其他公司，还是只服务某个短期概念？</p></div>
+              <div class="question"><span>7</span><p>汽车公司是否有量产车型、持续维护、车云/HMI/质量或安全能力？</p></div>
+              <div class="question"><span>8</span><p>机器人公司是否已交付订单、扣除遥操作成本、具备连续无故障工作指标和复购？</p></div>
+            </div>
+          </section>
+
+          <section class="section grid-2" id="language">
+            <div class="panel">
+              <h2>语言杠杆</h2>
+              <p class="muted">三种语言价值不相等：英语是基础设施，德语是产业深化器，俄语是特殊方向期权。</p>
+              <div class="language">
+                <div class="language-row"><strong>英语</strong><div class="bar-track"><div class="bar" style="width: 100%"></div></div><span>优先级最高</span></div>
+                <div class="language-row"><strong>德语</strong><div class="bar-track"><div class="bar" style="width: 72%"></div></div><span>汽车/自动化深化</span></div>
+                <div class="language-row"><strong>俄语</strong><div class="bar-track"><div class="bar" style="width: 36%"></div></div><span>航天/欧亚期权</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <h2>十年语言战略</h2>
+              <table class="compare">
+                <tr><th>2026-2028</th><td>英语职业化：读AI文档、写README、做英文项目介绍。80%英语，20%德语体验。</td></tr>
+                <tr><th>2029-2032</th><td>德语产业化：汽车、工业自动化、人因工程术语，英语维护＋德语深化。</td></tr>
+                <tr><th>2033-2036</th><td>只有进入商业航天、俄罗斯/欧亚市场或苏联科技史方向时，正式投入俄语。</td></tr>
+              </table>
+            </div>
+          </section>
+
+          <section class="section" id="research-card">
+            <div class="section-head">
+              <div>
+                <h2>产业调研卡</h2>
+                <p>把每次阅读、参会或面试转成可复用证据。</p>
+              </div>
+              <span class="badge">本地保存</span>
+            </div>
+            <div class="panel">
+              <div class="form-grid">
+                <label>调研对象<input type="text" data-field="target" placeholder="公司、岗位、产业方向或政策文件" /></label>
+                <label>所属赛道<select data-field="track"><option>产业AI知识系统</option><option>智能汽车HMI/车路云</option><option>机器人与人机交互</option><option>智能制造/数字孪生</option><option>医药AI知识系统</option><option>商业航天数字平台</option></select></label>
+                <label>真实需求<textarea data-field="need" placeholder="客户或企业真正想解决什么问题？"></textarea></label>
+                <label>当前人工流程<textarea data-field="manual" placeholder="现在人工怎样完成？哪一步最费时间？"></textarea></label>
+                <label>AI可切入点<textarea data-field="ai" placeholder="知识检索、事件时间线、HMI、评测、决策卡、权限或审计？"></textarea></label>
+                <label>风险与证据<textarea data-field="risk" placeholder="主要风险、责任、成本、可验证证据。"></textarea></label>
+                <label>下一步实验<textarea data-field="experiment" placeholder="一个可以一周内完成的小原型、问题清单或访谈动作。"></textarea></label>
+                <label>资料来源<textarea data-field="source" placeholder="链接、文档名、活动名称或联系人。"></textarea></label>
+              </div>
+              <div class="actions">
+                <button class="primary" type="button" id="copy-card">复制调研卡</button>
+                <button type="button" id="clear-card">清空调研卡</button>
+                <a href="car-robotics.html">打开每日打卡台</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>第一个项目定义</h2>
+                <p>这个项目一次证明你理解亦庄、会AI和RAG、能做前端产品、能做历史时间线和产业决策。</p>
+              </div>
+              <span class="badge">先做小</span>
+            </div>
+            <div class="panel">
+              <h3>亦庄机器人产业知识与决策助手</h3>
+              <table class="compare">
+                <tr><th>第一版功能</th><td>上传公开机器人产业资料；根据问题检索原文并显示出处；自动生成产业事件时间线；生成决策卡：机会、成本、风险、待验证假设。</td></tr>
+                <tr><th>测试问题</th><td>亦庄为什么重点发展人形机器人？产业链缺少哪些环节？哪些应用已落地？企业进入最低成本是什么？展馆应先做手机AI导览还是实体机器人导览？</td></tr>
+                <tr><th>最终路线</th><td>先进入产业AI，再进入机器人或汽车，最后把历史与人本能力变成独特壁垒。</td></tr>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>资料入口</h2>
+                <p>保留关键来源，后续可作为知识库上传材料。</p>
+              </div>
+            </div>
+            <div class="panel sources">
+              <a href="https://www.caam.org.cn/chn/1/cate_3/con_5236826.html">中国汽车工业协会：新能源汽车销量与渗透率</a>
+              <a href="https://ifr.org/ifr-press-releases/news/global-robot-demand-in-factories-doubles-over-10-years">IFR：全球工业机器人安装数据</a>
+              <a href="https://kfqgw.beijing.gov.cn/zwgkkfq/ztzl/lqztkfq/lqzx/zxxx/202410/t20241018_4234377.html">亦庄智能网联汽车产业链</a>
+              <a href="https://kfqgw.beijing.gov.cn/zmhdkfq/zxft/202604/t20260417_4589584.html">亦庄机器人产业生态</a>
+              <a href="https://kfqgw.beijing.gov.cn/zwgkkfq/ztzl/xxgcddesjszqhjs/xxgc/202408/t20240801_4233551.html">亦庄未来产业规划</a>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const fields = [...document.querySelectorAll("[data-field]")];
+      const copyButton = document.querySelector("#copy-card");
+      const clearButton = document.querySelector("#clear-card");
+      const storageKey = "industryResearchCard";
+
+      const load = () => {
+        const state = JSON.parse(localStorage.getItem(storageKey) || "{}");
+        fields.forEach((field) => {
+          field.value = state[field.dataset.field] || field.value || "";
+        });
+      };
+
+      const save = () => {
+        const state = {};
+        fields.forEach((field) => {
+          state[field.dataset.field] = field.value;
+        });
+        localStorage.setItem(storageKey, JSON.stringify(state));
+      };
+
+      fields.forEach((field) => field.addEventListener("input", save));
+      fields.forEach((field) => field.addEventListener("change", save));
+
+      copyButton.addEventListener("click", async () => {
+        const value = (name) => document.querySelector(`[data-field="${name}"]`).value;
+        const lines = [
+          "产业调研卡",
+          "",
+          `调研对象：${value("target")}`,
+          `所属赛道：${value("track")}`,
+          "",
+          `真实需求：${value("need")}`,
+          `当前人工流程：${value("manual")}`,
+          `AI可切入点：${value("ai")}`,
+          `风险与证据：${value("risk")}`,
+          `下一步实验：${value("experiment")}`,
+          `资料来源：${value("source")}`
+        ];
+        await navigator.clipboard.writeText(lines.join("\n"));
+        copyButton.textContent = "已复制";
+        setTimeout(() => {
+          copyButton.textContent = "复制调研卡";
+        }, 1200);
+      });
+
+      clearButton.addEventListener("click", () => {
+        localStorage.removeItem(storageKey);
+        fields.forEach((field) => {
+          if (field.tagName === "SELECT") {
+            field.selectedIndex = 0;
+          } else {
+            field.value = "";
+          }
+        });
+      });
+
+      load();
+    </script>
+  </body>
+</html>
