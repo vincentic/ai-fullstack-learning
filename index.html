@@ -343,7 +343,7 @@
               <h2>模块索引导航</h2>
               <p>按 Java、SEO、产品、设计、业务等模块切换左侧标签，再在中间列表选择 Markdown 预览或 HTML 页面。</p>
             </div>
-            <span class="doc-count">47 篇 Markdown · 7 个 HTML 应用</span>
+            <span class="doc-count">48 篇 Markdown · 7 个 HTML 应用</span>
           </div>
           <div class="notes-browser">
             <div class="notes-tabs" role="tablist" aria-label="模块索引导航">
@@ -354,6 +354,7 @@
               <button class="notes-tab" type="button" data-notes-filter="product" role="tab" aria-selected="false">产品<span>需求 / PRD / 指标</span></button>
               <button class="notes-tab" type="button" data-notes-filter="design" role="tab" aria-selected="false">设计<span>体验 / 组件 / QA</span></button>
               <button class="notes-tab" type="button" data-notes-filter="business" role="tab" aria-selected="false">业务<span>行业 / 客户 / 增长</span></button>
+              <button class="notes-tab" type="button" data-notes-filter="engineering" role="tab" aria-selected="false">软件工程<span>作品 / GitHub / Vercel</span></button>
               <button class="notes-tab" type="button" data-notes-filter="tech" role="tab" aria-selected="false">技术<span>工程 / 架构 / 领导力</span></button>
               <button class="notes-tab" type="button" data-notes-filter="other" role="tab" aria-selected="false">其他<span>项目说明 / 加餐</span></button>
             </div>
@@ -535,6 +536,10 @@
               <strong>产研应用 · 亦庄产业 AI 调研工作台</strong>
               <span>围绕亦庄、汽车、机器人、语言杠杆和产业 AI 机会建立调研与决策模块。</span>
             </a>
+            <a class="note-link" href="software-engineering-practice/roadmap.md" data-doc="software-engineering-practice/roadmap.md">
+              <strong>软件工程实践 · Roadmap</strong>
+              <span>以输出作品为目标，每一步通过 GitHub 记录、Vercel 部署和复盘形成工程闭环。</span>
+            </a>
             <a class="note-link" href="product-growth/roadmap.md" data-doc="product-growth/roadmap.md">
               <strong>产品成长 · Roadmap</strong>
               <span>用户需求、竞品分析、PRD、原型、指标和交付路线。</span>
@@ -588,7 +593,7 @@
         </div>
         <div class="card">
           <h2>项目目标</h2>
-          <p>从“会写代码”升级为“能独立设计、开发并交付智能应用”的全栈工程化能力。</p>
+          <p>从“会写代码”升级为“能独立设计、开发、部署并用作品证明能力”的全栈工程化实践。</p>
         </div>
         <div class="card">
           <h2>持续更新</h2>
@@ -623,6 +628,9 @@
         }
         if (path.startsWith("business-growth/")) {
           return "business";
+        }
+        if (path.startsWith("software-engineering-practice/")) {
+          return "engineering";
         }
         if (path.startsWith("tech-growth/")) {
           return "tech";
