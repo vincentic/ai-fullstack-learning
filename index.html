@@ -347,14 +347,14 @@
           </div>
           <div class="notes-browser">
             <div class="notes-tabs" role="tablist" aria-label="模块索引导航">
-              <button class="notes-tab active" type="button" data-notes-filter="all" role="tab" aria-selected="true">全部模块<span>完整文档索引</span></button>
+              <button class="notes-tab active" type="button" data-notes-filter="engineering" role="tab" aria-selected="true">软件工程<span>作品 / GitHub / Vercel</span></button>
+              <button class="notes-tab" type="button" data-notes-filter="all" role="tab" aria-selected="false">全部模块<span>完整文档索引</span></button>
               <button class="notes-tab" type="button" data-notes-filter="java" role="tab" aria-selected="false">Java<span>基础 / 数据库 / 框架</span></button>
               <button class="notes-tab" type="button" data-notes-filter="seo" role="tab" aria-selected="false">SEO<span>建站 / 日历 / 运营</span></button>
               <button class="notes-tab" type="button" data-notes-filter="rnd" role="tab" aria-selected="false">产研应用<span>产业 AI / 打卡工具</span></button>
               <button class="notes-tab" type="button" data-notes-filter="product" role="tab" aria-selected="false">产品<span>需求 / PRD / 指标</span></button>
               <button class="notes-tab" type="button" data-notes-filter="design" role="tab" aria-selected="false">设计<span>体验 / 组件 / QA</span></button>
               <button class="notes-tab" type="button" data-notes-filter="business" role="tab" aria-selected="false">业务<span>行业 / 客户 / 增长</span></button>
-              <button class="notes-tab" type="button" data-notes-filter="engineering" role="tab" aria-selected="false">软件工程<span>作品 / GitHub / Vercel</span></button>
               <button class="notes-tab" type="button" data-notes-filter="tech" role="tab" aria-selected="false">技术<span>工程 / 架构 / 领导力</span></button>
               <button class="notes-tab" type="button" data-notes-filter="other" role="tab" aria-selected="false">其他<span>项目说明 / 加餐</span></button>
             </div>
@@ -667,6 +667,7 @@
           filterNotes(tab.dataset.notesFilter);
         });
       });
+      filterNotes("engineering");
 
       const escapeHtml = (value) => value
         .replaceAll("&", "&amp;")
